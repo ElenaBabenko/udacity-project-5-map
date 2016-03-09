@@ -72,11 +72,38 @@ function initMap() {
     zoom: 13
   });
 
+  // basic marker 
+  // var marker = new google.maps.Marker({
+  //   position: {lat: 42.2843358, lng: -71.7297992},
+  //   map: map,
+  //   title: 'Hello World!'
+  // });
+
+
+  // http://stackoverflow.com/questions/3059044/google-maps-js-api-v3-simple-multiple-marker-example?rq=1
+
+  // console.log(places[1].lat);
+
+  // for (var i = 0; i < places.length; i++) {  
+  //   var marker = new google.maps.Marker({
+  //     position: {lat: places[i].lat, lng: places[i].lng},
+  //     map: map,
+  //     title: places[i].locationName
+  //   });
+  // }
+
+  // http://stackoverflow.com/questions/14927258/using-json-to-add-markers-to-google-maps-api?rq=1
+  // function addMarker(lat,lng) {
+  //   marker = new google.maps.Marker({
+  //   position: new google.maps.LatLng(lat,lng),
+  //   map: map,
+  //   });
+  //   markersArray.push(marker);
+  // }
+  // ===========
 
 
 	self.setMarker = function(data) {
-
-		console.log(data);
 
 		var lat = data.lat,
 		    lng = data.lng,
@@ -92,26 +119,46 @@ function initMap() {
 }
 
 
-
+console.log(places);
 
 // declare viewmodel
-function AppViewModel(MapApp) {
+function AppViewModel(mapApp) {
+  "use strict"; 
+	
+  var self = this;
 
-	var self = this;
+	// self.markerList = ko.observableArray([]);
+  self.markerList = [ko.observableArray([])];
 
-	self.markerList = ko.observableArray([]);
 
-	console.log(places);
 
-	// places.forEach(function(places){
-	// 	self.markerList.push( new MapApp.Marker(places) );
-	// });
+  // if (!self.markerList.isArray){
+  //   console.log("self.markerList is not an array 1");
+  // } else {
+  //   console.log("array 1");
+  // }
 
-	places.forEach(function(place){
-		self.markerList.push( new MapApp.setMarker(place) );
-	});
 
-	console.log(self.markerList);
+  places.forEach( function(place) {
+    self.markerList.push( new mapApp.setMarker(place) );
+  });
+
+
+  // if (!self.markerList.isArray){
+  //   console.log("self.markerList is not an array 2");
+  // } else {
+  //   console.log("array 2");
+  // }
+
+
+
+
+	// console.log(self.markerList.length);
+
+  // =========
+  // places.forEach(function(places){
+  //  self.markerList.push( new mapApp.Marker(places) );
+  // });
 
 	// this.currentMarker = ko.observable( this.markerList()[0] );
 
@@ -125,15 +172,23 @@ function AppViewModel(MapApp) {
 }
 
 // Activates knockout.js
-//ko.applyBindings(new AppViewModel());
+// ko.applyBindings(new AppViewModel());
 
+// =================
 var viewmodel;
 
-function InitializeApp(){
-	var MapApp = new initMap();
+function initializeApp() {
 
-	// Start ViewModel to make sure it initialize after Google map loads
+	var MapApp = new initMap();
+  
+	// Start ViewModel to make sure it initializes after Google map loads
 	viewmodel = new AppViewModel(MapApp);
 
 	ko.applyBindings(viewmodel);
-};
+}
+
+
+
+
+
+
